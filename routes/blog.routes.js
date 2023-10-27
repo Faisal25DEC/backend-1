@@ -24,7 +24,7 @@ blogRouter.get("/:blogId", async (req, res) => {
 blogRouter.use(authenticate);
 
 blogRouter.post("/create", async (req, res) => {
-  const { title, description, category, tags, image } = req.body;
+  const { title, description, category, tags, image, text } = req.body;
   const author_id = req.userId;
   const user = await UserModel.findOne({ _id: author_id });
   const dateCreated = getCurrentDate();
@@ -37,6 +37,7 @@ blogRouter.post("/create", async (req, res) => {
     tags,
     image,
     dateCreated,
+    text,
   });
   res.send("blog created");
 });

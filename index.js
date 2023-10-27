@@ -9,6 +9,8 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { userRouter } = require("./routes/user.routes");
 const passport = require("./config/google.oauth");
+const followerRouter = require("./routes/follower.routes");
+const commentRouter = require("./routes/comment.routes");
 
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
@@ -34,6 +36,9 @@ app.get("/", (req, res) => {
 app.use("/users", userRouter);
 
 app.use("/blogs", blogRouter);
+
+app.use("/followers", followerRouter);
+app.use("/comments", commentRouter);
 
 app.get(
   "/auth/google",
