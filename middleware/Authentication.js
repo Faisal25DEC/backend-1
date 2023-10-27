@@ -5,7 +5,7 @@ const authenticate = (req, res, next) => {
   console.log(token);
   jwt.verify(token, "secretkey", function (err, decoded) {
     if (err) {
-      res.send("login first");
+      res.send({ msg: "login first" });
     } else {
       req.userId = decoded.userId;
       next();

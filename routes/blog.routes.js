@@ -2,6 +2,7 @@ const express = require("express");
 const { BlogModel } = require("../models/Blog.model");
 const { UserModel } = require("../models/User.model");
 const { getCurrentDate } = require("../utils/utils");
+const { authenticate } = require("../middleware/Authentication");
 
 const blogRouter = express.Router();
 
@@ -9,6 +10,18 @@ blogRouter.get("/", async (req, res) => {
   const blogs = await BlogModel.find();
   res.send(blogs);
 });
+
+blogRouter.get("/:blogId", async (req, res) => {
+  const blogId = req.params.blogId;
+  try {
+    const blog = await BlogModel.findOne({ _id: blogId });
+    res.send(blog);
+  } catch (err) {
+    res.status(400).send({ msg: "blog doesn't exist" });
+  }
+});
+
+blogRouter.use(authenticate);
 
 blogRouter.post("/create", async (req, res) => {
   const { title, description, category, tags, image } = req.body;
